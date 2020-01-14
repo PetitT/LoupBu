@@ -41,7 +41,7 @@ public class Pool : MonoBehaviour
         }
     }
 
-    public GameObject GetItemFromPool(GameObject item, Vector2 position)
+    public GameObject GetItemFromPool(GameObject item, Vector3 position)
     {
         if (!pool.ContainsKey(item))
         {

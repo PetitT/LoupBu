@@ -14,7 +14,6 @@ public class WolfMovement : MonoBehaviour
 
     [Header("Attacks")]
     public List<BaseAttack> attacks;
-    public event Action onFinish;
 
     [Header("Directions")]
     public Transform top;
@@ -25,6 +24,8 @@ public class WolfMovement : MonoBehaviour
     public Transform bottomLeft;
     public Transform left;
     public Transform topLeft;
+
+    public event Action onFinish;
 
     public static WolfMovement instance;
 
@@ -128,12 +129,18 @@ public class WolfMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             canAttack = false;
-            attacks[0].Attack(AttackComplete); 
+            attacks[0].Attack(AttackComplete);
         }
     }
 
     private void AttackComplete()
     {
-        canAttack = true; 
+        canAttack = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (currentDirection)
+            Gizmos.DrawLine(transform.position, currentDirection.position);
     }
 }
