@@ -7,26 +7,17 @@ using Unity.Burst;
 using Unity.Collections;
 using System;
 
-public class GoatBehaviour : MonoBehaviour
+public class GoatBehaviour : Singleton<GoatBehaviour>
 {
-    public float goatSpeed;
-
-    public int goatsPerJobBatch;
-
-    public static GoatBehaviour instance;
+    private float goatSpeed;
+    private int goatsPerJobBatch;
     private List<GameObject> activeGoats = new List<GameObject>();
     private Transform target;
 
-    private void Awake()
-    {
-        if (instance)
-            Destroy(this);
-        else
-            instance = this;
-    }
-
     private void Start()
     {
+        goatSpeed = DataManager.instance.goatSpeed;
+        goatsPerJobBatch = DataManager.instance.goatsPerJobBatch;
         target = WolfMovement.instance.gameObject.transform;
     }
 

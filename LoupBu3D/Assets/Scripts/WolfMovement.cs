@@ -122,6 +122,7 @@ public class WolfMovement : MonoBehaviour
 
         anim.SetBool("isFront", isFront);
         anim.SetBool("isMoving", isMoving);
+
     }
 
     private void Attack()
