@@ -3,52 +3,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WolfMovement : MonoBehaviour
+public class WolfMovement : Singleton<WolfMovement>
 {
-    [Header("Attributes")]
-    public float moveSpeed;
+    private float moveSpeed;
 
     [Header("Animation")]
-    public Animator anim;
-    public SpriteRenderer sprite;
-
-    [Header("Attacks")]
-    public List<BaseAttack> attacks;
+    [SerializeField] private Animator anim;
+    [SerializeField] private SpriteRenderer sprite;
 
     [Header("Directions")]
-    public Transform top;
-    public Transform topRight;
-    public Transform right;
-    public Transform bottomRight;
-    public Transform bottom;
-    public Transform bottomLeft;
-    public Transform left;
-    public Transform topLeft;
+    [SerializeField] private Transform top;
+    [SerializeField] private Transform topRight;
+    [SerializeField] private Transform right;
+    [SerializeField] private Transform bottomRight;
+    [SerializeField] private Transform bottom;
+    [SerializeField] private Transform bottomLeft;
+    [SerializeField] private Transform left;
+    [SerializeField] private Transform topLeft;
 
-    public event Action onFinish;
-
-    public static WolfMovement instance;
-
-    [HideInInspector] public Transform currentDirection;
+    public Transform currentDirection { get; private set; }
 
     private float XMove;
     private float ZMove;
 
-    [HideInInspector] public bool isMoving;
-    [HideInInspector] public bool isFront;
-    private bool canAttack = true;
-
-    private void Awake()
-    {
-        if (instance)
-            Destroy(this);
-        else
-            instance = this;
-    }
+    private bool isMoving;
+    private bool isFront;  
 
     private void Start()
     {
         currentDirection = bottom;
+        moveSpeed = DataManager.instance.wolfMoveSpeed;
     }
 
     void Update()
@@ -56,14 +40,13 @@ public class WolfMovement : MonoBehaviour
         Move();
         Animate();
         CheckDirection();
-        Attack();
     }
 
     private void Move()
     {
         XMove = Input.GetAxis("Horizontal");
         ZMove = Input.GetAxis("Vertical");
-        Vector3 movement = new Vector3(XMove, 0, ZMove);
+        Vector3 movement = new Vector3(XMove, 0, ZMove).normalized;
 
         gameObject.transform.Translate(movement * moveSpeed * Time.deltaTime);
     }
@@ -123,20 +106,6 @@ public class WolfMovement : MonoBehaviour
         anim.SetBool("isFront", isFront);
         anim.SetBool("isMoving", isMoving);
 
-    }
-
-    private void Attack()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            canAttack = false;
-            attacks[0].Attack(AttackComplete);
-        }
-    }
-
-    private void AttackComplete()
-    {
-        canAttack = true;
     }
 
     private void OnDrawGizmos()

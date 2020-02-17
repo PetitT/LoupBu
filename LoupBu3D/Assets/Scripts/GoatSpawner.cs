@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class GoatSpawner : MonoBehaviour
 {
-    public GameObject goat;
-    public List<Transform> spawnPos;
+    [SerializeField] private GameObject goat;
+    [SerializeField] private MeshRenderer baseGround;
 
+    private float distanceFromBounds;
+    private float height;
     private float spawnFrequency;
     private float remainingSpawnFrequency;
 
@@ -14,6 +16,8 @@ public class GoatSpawner : MonoBehaviour
 
     private void Start()
     {
+        height = DataManager.instance.goatHeight;
+        distanceFromBounds = DataManager.instance.goatSpawnDistanceFromBounds;
         spawnFrequency = DataManager.instance.goatSpawnFrequency;
         remainingSpawnFrequency = spawnFrequency;
     }
@@ -33,8 +37,11 @@ public class GoatSpawner : MonoBehaviour
 
     private void SpawnNewGoat()
     {
-        int random = UnityEngine.Random.Range(0, spawnPos.Count);
-        GameObject newGoat = Pool.instance.GetItemFromPool(goat, spawnPos[random].position);
+        float randomX = UnityEngine.Random.Range(baseGround.bounds.min.x + distanceFromBounds, baseGround.bounds.max.x - distanceFromBounds);
+        float randomZ = UnityEngine.Random.Range(baseGround.bounds.min.z + distanceFromBounds, baseGround.bounds.max.z - distanceFromBounds);
+        Vector3 newPosition = new Vector3(randomX, height, randomZ);
+
+        GameObject newGoat = Pool.instance.GetItemFromPool(goat, newPosition);
         GoatBehaviour.instance.UpdateList(newGoat, true);
     }
 

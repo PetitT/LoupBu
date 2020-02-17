@@ -10,6 +10,7 @@ using System;
 public class GoatBehaviour : Singleton<GoatBehaviour>
 {
     private float goatSpeed;
+    private float aggroRange;
     private int goatsPerJobBatch;
     private List<GameObject> activeGoats = new List<GameObject>();
     private Transform target;
@@ -18,6 +19,7 @@ public class GoatBehaviour : Singleton<GoatBehaviour>
     {
         goatSpeed = DataManager.instance.goatSpeed;
         goatsPerJobBatch = DataManager.instance.goatsPerJobBatch;
+        aggroRange = DataManager.instance.aggroRange;
         target = WolfMovement.instance.gameObject.transform;
     }
 
@@ -43,16 +45,20 @@ public class GoatBehaviour : Singleton<GoatBehaviour>
     private void Update()
     {
         NativeArray<float3> positionArray = new NativeArray<float3>(activeGoats.Count, Allocator.TempJob);
-        NativeArray<float3> directionArray = new NativeArray<float3>(activeGoats.Count, Allocator.TempJob);
+        NativeArray<float3> directionArray = new NativeArray<float3>(activeGoats.Count, Allocator.TempJob);        
 
         for (int i = 0; i < activeGoats.Count; i++)
         {
             positionArray[i] = activeGoats[i].transform.position;
-        }
-
-        for (int i = 0; i < activeGoats.Count; i++)
-        {
             directionArray[i] = GetDirection(activeGoats[i].transform.position);
+            if(directionArray[i].x > 0)
+            {
+                activeGoats[i].GetComponentInChildren<SpriteRenderer>().flipX = false;
+            }
+            else if(directionArray[i].x < 0)
+            {
+                activeGoats[i].GetComponentInChildren<SpriteRenderer>().flipX = true;
+            }
         }
 
         FollowWolf followWolf = new FollowWolf
@@ -80,6 +86,10 @@ public class GoatBehaviour : Singleton<GoatBehaviour>
     {
         Vector3 direction = target.position - position;
         float distance = direction.magnitude;
+        if(distance > aggroRange)
+        {
+            return new float3(0, 0, 0);
+        }
         Vector3 normalizedDirection = direction / distance;
         return (float3)normalizedDirection;
     }
@@ -95,6 +105,7 @@ public struct FollowWolf : IJobParallelFor
 
     public void Execute(int index)
     {
-        positionArray[index] += directionArray[index] * speed * deltaTime;   
+        float3 newDirection = new float3(directionArray[index].x, 0, directionArray[index].z);
+        positionArray[index] += newDirection * speed * deltaTime;   
     }
 }

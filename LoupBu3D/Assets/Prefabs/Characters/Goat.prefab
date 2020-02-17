@@ -110,6 +110,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1649470943438650194}
   - component: {fileID: 6278293930570297491}
+  - component: {fileID: -8477102256675885884}
+  - component: {fileID: 4437939509097802633}
+  - component: {fileID: -6002598086613845160}
   m_Layer: 0
   m_Name: Goat
   m_TagString: Goat
@@ -145,3 +148,40 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.705427, y: 5.119996, z: 1.5222597}
   m_Center: {x: 0.24484348, y: 0.19546175, z: 0.03752184}
+--- !u!114 &-8477102256675885884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649470943438650192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a60c446b388c2488aaf5188ed6c649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4437939509097802633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649470943438650192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7630cc2a55420845b161527a2c3744d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageHandler: {fileID: -8477102256675885884}
+--- !u!114 &-6002598086613845160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649470943438650192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59eafacd5e16ee248838eb267c408bf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

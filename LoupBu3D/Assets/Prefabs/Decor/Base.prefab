@@ -229,11 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goat: {fileID: 1649470943438650192, guid: e7487f554e55c024b9ed28e379e36057, type: 3}
-  spawnPos:
-  - {fileID: 9002554026046777312}
-  - {fileID: 3621023186847920153}
-  - {fileID: 7583871899529172221}
-  - {fileID: 6898337094957564478}
+  baseGround: {fileID: 2960558398768201353}
 --- !u!65 &2960558399315008786
 BoxCollider:
   m_ObjectHideFlags: 0
